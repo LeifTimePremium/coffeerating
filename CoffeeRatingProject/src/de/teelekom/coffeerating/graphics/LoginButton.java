@@ -2,9 +2,10 @@ package de.teelekom.coffeerating.graphics;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.JButton;
 import javax.swing.SwingUtilities;
+
+import de.teelekom.coffeerating.util.JDBCOperator;
 
 public class LoginButton extends JButton implements ActionListener{
 
@@ -27,11 +28,19 @@ public class LoginButton extends JButton implements ActionListener{
 				System.out.println("Username: " + username);
 				System.out.println("Password: " + password);
 				
-				//TODO: Database creation + JDBC Connection, check username and password
 				
+				JDBCOperator operator = new JDBCOperator();
 				
+				//Checking if username and password are in SQL-Table
+				boolean pwCorrect = operator.checkUsernamePasswordCombination(username, password);
+				System.out.println(pwCorrect);
 				
-				
+				if(pwCorrect) {
+					MainFrame mainFrame = new MainFrame();
+				} else {
+					frame.getMessageLabel().setText("Nutzername oder Passwort falsch");
+				}
+			
 			}
 		
 		
