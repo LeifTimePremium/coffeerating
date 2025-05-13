@@ -1,11 +1,12 @@
 package de.teelekom.coffeerating.main;
 
+import de.teelekom.coffeerating.graphics.MainFrame;
 
-
+public class Main {
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-	public class rating {
-	System.out.println{"Hallo Dolce Gusto"}
+		
+		MainFrame frame = new MainFrame();
 	}
+}
 
 
