@@ -18,21 +18,17 @@ public class StartPage extends JFrame{
 	
 	
 	// Das hier ist die Hauptseite des Programms
-	private MainFrame mf;
-	
+	private MainFrame mainFrame;
 	
 	public StartPage() {
 		lgPage = new LoginPanel();
-		mf = new MainFrame();
+		mainFrame = new MainFrame();
 		
 		cardLayout = new CardLayout();
 		cardPanel = new JPanel(cardLayout);
 		
-		
 		cardPanel.add(lgPage, "Page1");
-		cardPanel.add(mf, "Page2");
-		
-		
+		cardPanel.add(mainFrame, "Page2");
 		add(cardPanel);
 		
 		setTitle("CoffeeRating - Login");
@@ -53,7 +49,7 @@ public class StartPage extends JFrame{
 		return cardPanel;
 	}
 	public MainFrame getMf() {
-		return mf;
+		return mainFrame;
 	}
 	public LoginPanel getLgPage() {
 		return lgPage;
