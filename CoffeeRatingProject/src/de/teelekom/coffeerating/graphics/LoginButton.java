@@ -22,11 +22,9 @@ public class LoginButton extends JButton implements ActionListener{
 			JButton btn = (JButton) e.getSource();
 			if(btn.getText() == "Login") {
 				
-				LoginPage frame = (LoginPage) SwingUtilities.getWindowAncestor(btn);
-				String username = frame.getUserName().getText();
-				String password = String.valueOf(frame.getPassword().getPassword());
-				System.out.println("Username: " + username);
-				System.out.println("Password: " + password);
+				StartPage frame = (StartPage) SwingUtilities.getWindowAncestor(btn);
+				String username = frame.getLgPage().getUserName().getText();
+				String password = String.valueOf(frame.getLgPage().getPassword().getPassword());
 				
 				
 				JDBCOperator operator = new JDBCOperator();
@@ -34,11 +32,10 @@ public class LoginButton extends JButton implements ActionListener{
 				//Checking if username and password are in SQL-Table
 				boolean pwCorrect = operator.checkUsernamePasswordCombination(username, password);
 				System.out.println(pwCorrect);
-				
 				if(pwCorrect) {
-					MainFrame mainFrame = new MainFrame();
+					frame.getCardLayout().show(frame.getCardPanel(), "Page2");
 				} else {
-					frame.getMessageLabel().setText("Nutzername oder Passwort falsch");
+					frame.getLgPage().getMessageLabel().setText("Nutzername oder Passwort falsch");
 				}
 			
 			}

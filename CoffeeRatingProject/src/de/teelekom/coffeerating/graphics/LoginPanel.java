@@ -2,13 +2,13 @@ package de.teelekom.coffeerating.graphics;
 
 import java.awt.Font;
 
-import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-public class LoginPage extends JFrame{
-	
+public class LoginPanel extends JPanel{
+
 	private LoginButton loginBtn;
 	private JTextField userName;
 	private JPasswordField password;
@@ -16,9 +16,7 @@ public class LoginPage extends JFrame{
 	private JLabel passwordLabel;
 	private JLabel messageLabel;
 	
-	
-
-	public LoginPage() {
+	public LoginPanel() {
 		
 		
 		loginBtn = new LoginButton();
@@ -30,10 +28,11 @@ public class LoginPage extends JFrame{
 		
 		userNameLabel.setBounds(300, 200, 75, 25);
 		passwordLabel.setBounds(300, 250, 75, 25);
-		messageLabel.setBounds(400, 400, 250, 35);
+		messageLabel.setBounds(300, 400, 600, 35);
 		messageLabel.setFont(new Font(null, Font.ITALIC, 25));
 		userName.setBounds(375, 200, 200, 25);
 		password.setBounds(375, 250, 200, 25);
+		
 		
 		add(loginBtn);
 		add(password);
@@ -41,15 +40,9 @@ public class LoginPage extends JFrame{
 		add(messageLabel);
 		add(userNameLabel);
 		add(passwordLabel);
-		setTitle("CoffeeRating - Login");
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		setSize(1000, 800);
+		
 		setLayout(null);
-		setVisible(true);
-		setResizable(false);
 	}
-
-
 
 	public LoginButton getLoginBtn() {
 		return loginBtn;
@@ -84,5 +77,4 @@ public class LoginPage extends JFrame{
 	public JLabel getMessageLabel() {
 		return messageLabel;
 	}
-	
 }

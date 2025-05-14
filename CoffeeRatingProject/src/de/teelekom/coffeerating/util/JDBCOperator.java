@@ -21,7 +21,6 @@ public class JDBCOperator {
 		}
 		try {
 			Connection connection = DriverManager.getConnection("jdbc:mysql://sql7.freesqldatabase.com:3306/sql7778575", "sql7778575", "NQVV7HBvwt");
-			System.out.println(connection.isValid(0));
 			
 			String sql = "SELECT * FROM users WHERE username = ? AND password_hash = ?";
 			pstmt = connection.prepareStatement(sql);
@@ -36,7 +35,6 @@ public class JDBCOperator {
 		try {
 		 pstmt.setString(1, username);
          pstmt.setString(2, password);
-        
         try (ResultSet rs = pstmt.executeQuery()) {
               if(rs.next()) {
            	   return true;
