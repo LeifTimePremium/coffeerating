@@ -6,7 +6,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
-
+//jar datei fehlt noch für maven bib deswegen jsoup fehlerhaft
 public class DolceGustoScraper {
     public static void main(String[] args) {
         String url = "https://www.dolce-gusto.de/kapseln";
