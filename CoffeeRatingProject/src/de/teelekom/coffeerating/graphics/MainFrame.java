@@ -8,6 +8,8 @@ import de.teelekom.coffeerating.util.JDBCOperator;
 import de.teelekom.coffeerating.util.Item;
 import de.teelekom.coffeerating.main.Main;
 import de.teelekom.coffeerating.graphics.StartPage;
+import java.awt.CardLayout;
+import java.awt.Color;
 
 import javax.swing.SwingUtilities;
 
@@ -58,6 +60,7 @@ public class MainFrame extends javax.swing.JPanel {
         caffeineLabel = new javax.swing.JLabel();
         typeLabel = new javax.swing.JLabel();
         allergyLabel = new javax.swing.JLabel();
+        HomePanel = new javax.swing.JPanel();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -66,6 +69,14 @@ public class MainFrame extends javax.swing.JPanel {
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         Nav_ViewRatings.setBackground(new java.awt.Color(72, 159, 181));
+        Nav_ViewRatings.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                Nav_ViewRatingsMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                Nav_ViewRatingsMouseExited(evt);
+            }
+        });
         Nav_ViewRatings.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -77,6 +88,17 @@ public class MainFrame extends javax.swing.JPanel {
         jPanel1.add(Nav_ViewRatings, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 240, 90, 30));
 
         Nav_Home.setBackground(new java.awt.Color(72, 159, 181));
+        Nav_Home.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                Nav_HomeMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                Nav_HomeMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                Nav_HomeMouseExited(evt);
+            }
+        });
         Nav_Home.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -88,6 +110,17 @@ public class MainFrame extends javax.swing.JPanel {
         jPanel1.add(Nav_Home, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 120, 90, 30));
 
         Nav_AddRating.setBackground(new java.awt.Color(72, 159, 181));
+        Nav_AddRating.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                Nav_AddRatingMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                NavAddRatingMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                NavAddRatingMouseExited(evt);
+            }
+        });
         Nav_AddRating.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -99,6 +132,14 @@ public class MainFrame extends javax.swing.JPanel {
         jPanel1.add(Nav_AddRating, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 160, 90, 30));
 
         Nav_Filler.setBackground(new java.awt.Color(72, 159, 181));
+        Nav_Filler.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                Nav_FillerMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                Nav_FillerMouseExited(evt);
+            }
+        });
         Nav_Filler.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -203,6 +244,16 @@ public class MainFrame extends javax.swing.JPanel {
         sendReviewButton.setBackground(new java.awt.Color(255, 166, 43));
         sendReviewButton.setForeground(new java.awt.Color(0, 0, 0));
         sendReviewButton.setText("Send review");
+        sendReviewButton.setFocusPainted(false);
+        sendReviewButton.setFocusable(false);
+        sendReviewButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                sendReviewButtonMouseClicked(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                sendReviewButtonMouseExited(evt);
+            }
+        });
         sendReviewButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 sendReviewButtonActionPerformed(evt);
@@ -213,6 +264,11 @@ public class MainFrame extends javax.swing.JPanel {
         cancelReviewButton.setBackground(new java.awt.Color(255, 166, 43));
         cancelReviewButton.setForeground(new java.awt.Color(0, 0, 0));
         cancelReviewButton.setText("Cancel");
+        cancelReviewButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cancelReviewButtonMouseClicked(evt);
+            }
+        });
         cancelReviewButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cancelReviewButtonActionPerformed(evt);
@@ -269,6 +325,9 @@ public class MainFrame extends javax.swing.JPanel {
         New_Rating_Panel.add(attributesPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 250, 370));
 
         jPanel3.add(New_Rating_Panel, "card2");
+
+        HomePanel.setBackground(new java.awt.Color(237, 231, 227));
+        jPanel3.add(HomePanel, "card3");
 
         add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 70, 750, 390));
     }// </editor-fold>//GEN-END:initComponents
@@ -327,10 +386,102 @@ public class MainFrame extends javax.swing.JPanel {
             allergyLabel.setText("Allergy information: " + i.getAllergyInfo());
         } 
     }//GEN-LAST:event_jComboBox1PopupMenuWillBecomeInvisible
-    
+
+    private void sendReviewButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_sendReviewButtonMouseClicked
+        
+        String name = String.valueOf(jComboBox1.getSelectedItem());
+        
+        if(!name.equals("SELECTED")) {
+        StartPage page2 = (StartPage) SwingUtilities.getWindowAncestor(this);
+        LoginPanel lgnPanel = page2.getLgnPanel();
+        JDBCOperator operator = lgnPanel.getOperator();    
+            
+        double taste = taste_Slider.getValue();
+        int price = priceSlider.getValue();
+        double pricePerformance = (taste + price)  / 2;
+        String comment = jTextArea1.getText();
+        double totalRating = jSlider1.getValue();
+        operator.postReview(name, taste, price, pricePerformance, comment, totalRating);
+        CardLayout layout = (CardLayout) jPanel3.getLayout();
+        resetRatingView();
+        layout.show(jPanel3, "card3");
+        
+        
+        }
+    }//GEN-LAST:event_sendReviewButtonMouseClicked
+
+    private void cancelReviewButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cancelReviewButtonMouseClicked
+        CardLayout layout = (CardLayout) jPanel3.getLayout();
+        resetRatingView();
+        layout.show(jPanel3, "card3");
+        
+    }//GEN-LAST:event_cancelReviewButtonMouseClicked
+
+    private void sendReviewButtonMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_sendReviewButtonMouseExited
+        
+    }//GEN-LAST:event_sendReviewButtonMouseExited
+
+    private void Nav_HomeMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Nav_HomeMouseEntered
+        Nav_Home.setBackground(new Color(255, 166, 43));
+    }//GEN-LAST:event_Nav_HomeMouseEntered
+
+    private void Nav_HomeMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Nav_HomeMouseExited
+        Nav_Home.setBackground(new Color(72, 159, 181));
+    }//GEN-LAST:event_Nav_HomeMouseExited
+
+    private void Nav_ViewRatingsMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Nav_ViewRatingsMouseEntered
+        Nav_ViewRatings.setBackground(new Color(255, 166, 43));
+    }//GEN-LAST:event_Nav_ViewRatingsMouseEntered
+
+    private void Nav_ViewRatingsMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Nav_ViewRatingsMouseExited
+        Nav_ViewRatings.setBackground(new Color(72, 159, 181));
+    }//GEN-LAST:event_Nav_ViewRatingsMouseExited
+
+    private void Nav_FillerMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Nav_FillerMouseEntered
+        Nav_Filler.setBackground(new Color(255, 166, 43));
+    }//GEN-LAST:event_Nav_FillerMouseEntered
+
+    private void Nav_FillerMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Nav_FillerMouseExited
+        Nav_Filler.setBackground(new Color(72, 159, 181));
+    }//GEN-LAST:event_Nav_FillerMouseExited
+
+    private void NavAddRatingMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_NavAddRatingMouseEntered
+        Nav_AddRating.setBackground(new Color(255, 166, 43));
+    }//GEN-LAST:event_NavAddRatingMouseEntered
+
+    private void NavAddRatingMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_NavAddRatingMouseExited
+        Nav_AddRating.setBackground(new Color(72, 159, 181));
+    }//GEN-LAST:event_NavAddRatingMouseExited
+
+    private void Nav_AddRatingMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Nav_AddRatingMouseClicked
+        CardLayout layout = (CardLayout) jPanel3.getLayout();
+        resetRatingView();
+        layout.show(jPanel3, "card2");
+    }//GEN-LAST:event_Nav_AddRatingMouseClicked
+
+    private void Nav_HomeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Nav_HomeMouseClicked
+        CardLayout layout = (CardLayout) jPanel3.getLayout();
+        layout.show(jPanel3, "card3");
+    }//GEN-LAST:event_Nav_HomeMouseClicked
+   
+    private void resetRatingView() {
+        taste_Slider.setValue(5);
+        tasteLabel.setText("Taste: 5/10");
+        priceSlider.setValue(50);
+        jLabel6.setText("Price per serving: 50 c");
+        jTextArea1.setText("");
+        jSlider1.setValue(5);
+        jLabel5.setText("Total rating: 5/10");
+        jComboBox1.setSelectedItem("SELECT");
+        typeLabel.setText("Type: ");
+        caffeineLabel.setText("Caffeine per serving: ");
+        calorieLabel.setText("Calories per serving: ");
+        allergyLabel.setText("Allergy information: ");
+    }
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel HomePanel;
     private javax.swing.JPanel Nav_AddRating;
     private javax.swing.JPanel Nav_Filler;
     private javax.swing.JPanel Nav_Home;
