@@ -12,6 +12,7 @@ public class JDBCOperator {
 	private PreparedStatement pstmt;
         private PreparedStatement getCoffeeNamesstmt;
         private PreparedStatement findItemByNameStmt;
+        private PreparedStatement sendReviewStmt;
         
 	private Connection connection;
         
@@ -31,10 +32,12 @@ public class JDBCOperator {
 			String sql = "SELECT * FROM users WHERE username = ? AND password_hash = ?";
                         String getCoffeNamessql = "SELECT Name FROM coffeetypes";
                         String finyItemByNameSQL = "SELECT Name, Type, Calories, Caffeine, AllergyInf FROM coffeetypes WHERE Name = ?";
+                        String sendReviewSQL = "INSERT INTO ratings (Name, Taste, Price, Price_Performance, Comment, Total_Rating) VALUES (?, ?, ?, ?, ?, ?);";
+                        
 			pstmt = connection.prepareStatement(sql);
                         getCoffeeNamesstmt = connection.prepareStatement(getCoffeNamessql);
                         findItemByNameStmt = connection.prepareStatement(finyItemByNameSQL);
-                        
+                        sendReviewStmt = connection.prepareStatement(sendReviewSQL);
 			
 		}catch(SQLException ex) {
 			ex.printStackTrace();
@@ -98,5 +101,22 @@ public class JDBCOperator {
             }
         
 	return null;
-}      
+} 
+  public void postReview(String name, double taste, int price, double pricePerformance, String comment, double totalRating) {
+      try {
+          sendReviewStmt.setString(1, name);
+          sendReviewStmt.setDouble(2, taste);
+          sendReviewStmt.setInt(3, price);
+          sendReviewStmt.setDouble(4, pricePerformance);
+          sendReviewStmt.setString(5, comment);
+          sendReviewStmt.setDouble(6, totalRating);
+          sendReviewStmt.execute();
+          System.out.println("Posted");
+          
+      }catch(SQLException ex) {
+          ex.printStackTrace();
+      }
+      
+      
+  }
 }
