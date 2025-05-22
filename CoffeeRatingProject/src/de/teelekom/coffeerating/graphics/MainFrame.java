@@ -9,9 +9,17 @@ import java.util.ArrayList;
 import de.teelekom.coffeerating.util.JDBCOperator;
 import de.teelekom.coffeerating.util.Item;
 import de.teelekom.coffeerating.main.Main;
+import de.teelekom.coffeerating.components.TableHeader;
 import de.teelekom.coffeerating.graphics.StartPage;
+import de.teelekom.coffeerating.components.BoardTableCellRenderer;
+import de.teelekom.coffeerating.util.Rating;
+
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Component;
+import javax.swing.table.*;
+import javax.swing.JTable;
+import javax.swing.JLabel;
 
 import javax.swing.SwingUtilities;
 
@@ -23,10 +31,19 @@ import javax.swing.SwingUtilities;
 public class MainFrame extends javax.swing.JPanel {
 
     private int sqlDataCounter = 0;
+    private ArrayList<String> names = new ArrayList<String>();
+    private ArrayList<Double> tastes = new ArrayList<Double>();
+    private ArrayList<Integer> prices = new ArrayList<Integer>();
+    private ArrayList<Double> pricePerformances = new ArrayList<Double>();
+    private ArrayList<String> comments = new ArrayList<String>();
+    private ArrayList<Double> totalRatings = new ArrayList<Double>();
+    
+    
     /**
      * Creates new form MainFrame
      */
     public MainFrame() {
+        
         initComponents();
     }
 
@@ -72,6 +89,9 @@ public class MainFrame extends javax.swing.JPanel {
         typeLabel = new javax.swing.JLabel();
         allergyLabel = new javax.swing.JLabel();
         HomePanel = new javax.swing.JPanel();
+        jPanel4 = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTable2 = new javax.swing.JTable();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -79,7 +99,7 @@ public class MainFrame extends javax.swing.JPanel {
         jPanel1.setBackground(new java.awt.Color(22, 105, 122));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        Nav_ViewRatings.setBackground(new java.awt.Color(72, 159, 181));
+        Nav_ViewRatings.setBackground(new java.awt.Color(22, 105, 122));
         Nav_ViewRatings.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 Nav_ViewRatingsMouseEntered(evt);
@@ -96,9 +116,9 @@ public class MainFrame extends javax.swing.JPanel {
         jLabel3.setText("View Ratings");
         Nav_ViewRatings.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 90, 30));
 
-        jPanel1.add(Nav_ViewRatings, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 240, 90, 30));
+        jPanel1.add(Nav_ViewRatings, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 340, 90, 30));
 
-        Nav_Home.setBackground(new java.awt.Color(72, 159, 181));
+        Nav_Home.setBackground(new java.awt.Color(22, 105, 122));
         Nav_Home.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 Nav_HomeMouseClicked(evt);
@@ -118,9 +138,9 @@ public class MainFrame extends javax.swing.JPanel {
         jLabel1.setText("Home");
         Nav_Home.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 90, 30));
 
-        jPanel1.add(Nav_Home, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 120, 90, 30));
+        jPanel1.add(Nav_Home, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 180, 90, 30));
 
-        Nav_AddRating.setBackground(new java.awt.Color(72, 159, 181));
+        Nav_AddRating.setBackground(new java.awt.Color(22, 105, 122));
         Nav_AddRating.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 Nav_AddRatingMouseClicked(evt);
@@ -140,9 +160,9 @@ public class MainFrame extends javax.swing.JPanel {
         jLabel2.setText("New Rating");
         Nav_AddRating.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 90, 30));
 
-        jPanel1.add(Nav_AddRating, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 160, 90, 30));
+        jPanel1.add(Nav_AddRating, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 240, 90, 30));
 
-        Nav_Filler.setBackground(new java.awt.Color(72, 159, 181));
+        Nav_Filler.setBackground(new java.awt.Color(22, 105, 122));
         Nav_Filler.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 Nav_FillerMouseEntered(evt);
@@ -159,7 +179,7 @@ public class MainFrame extends javax.swing.JPanel {
         jLabel4.setText("Filler");
         Nav_Filler.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 90, 30));
 
-        jPanel1.add(Nav_Filler, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 200, 90, 30));
+        jPanel1.add(Nav_Filler, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 290, 90, 30));
 
         add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 90, 460));
 
@@ -167,16 +187,18 @@ public class MainFrame extends javax.swing.JPanel {
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
         add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 0, 770, 70));
 
-        jPanel3.setBackground(new java.awt.Color(237, 231, 227));
+        jPanel3.setBackground(new java.awt.Color(55, 147, 146));
         jPanel3.setLayout(new java.awt.CardLayout());
 
-        New_Rating_Panel.setBackground(new java.awt.Color(237, 231, 227));
+        New_Rating_Panel.setBackground(new java.awt.Color(130, 192, 204));
         New_Rating_Panel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        ratingPanel.setBackground(new java.awt.Color(237, 231, 227));
-        ratingPanel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED, null, new java.awt.Color(0, 0, 0), null, null));
+        ratingPanel.setBackground(new java.awt.Color(130, 192, 204));
+        ratingPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         ratingPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        priceSlider.setBackground(new java.awt.Color(130, 192, 204));
+        priceSlider.setForeground(new java.awt.Color(130, 192, 204));
         priceSlider.setMaximum(90);
         priceSlider.setMinimum(10);
         priceSlider.setMinorTickSpacing(10);
@@ -197,6 +219,8 @@ public class MainFrame extends javax.swing.JPanel {
         tasteLabel.setText("Taste: 5/10");
         ratingPanel.add(tasteLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 30, 150, -1));
 
+        taste_Slider.setBackground(new java.awt.Color(130, 192, 204));
+        taste_Slider.setForeground(new java.awt.Color(130, 192, 204));
         taste_Slider.setMaximum(10);
         taste_Slider.setMinimum(1);
         taste_Slider.setPaintLabels(true);
@@ -218,6 +242,8 @@ public class MainFrame extends javax.swing.JPanel {
         jLabel6.setToolTipText("");
         ratingPanel.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 110, 150, 20));
 
+        jSlider1.setBackground(new java.awt.Color(130, 192, 204));
+        jSlider1.setForeground(new java.awt.Color(130, 192, 204));
         jSlider1.setMaximum(10);
         jSlider1.setMinimum(1);
         jSlider1.setPaintLabels(true);
@@ -235,7 +261,7 @@ public class MainFrame extends javax.swing.JPanel {
         jLabel5.setText("Total rating: 5/10");
         ratingPanel.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 310, -1, -1));
 
-        jTextArea1.setBackground(new java.awt.Color(237, 231, 227));
+        jTextArea1.setBackground(new java.awt.Color(130, 192, 204));
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
         jScrollPane1.setViewportView(jTextArea1);
@@ -249,7 +275,7 @@ public class MainFrame extends javax.swing.JPanel {
 
         New_Rating_Panel.add(ratingPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 10, 250, 370));
 
-        commitPanel.setBackground(new java.awt.Color(237, 231, 227));
+        commitPanel.setBackground(new java.awt.Color(130, 192, 204));
         commitPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         sendReviewButton.setBackground(new java.awt.Color(255, 166, 43));
@@ -289,8 +315,8 @@ public class MainFrame extends javax.swing.JPanel {
 
         New_Rating_Panel.add(commitPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 90, 180, 250));
 
-        attributesPanel.setBackground(new java.awt.Color(237, 231, 227));
-        attributesPanel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED, null, java.awt.Color.black, null, null));
+        attributesPanel.setBackground(new java.awt.Color(130, 192, 204));
+        attributesPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         attributesPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jComboBox1.setBackground(new java.awt.Color(72, 159, 181));
@@ -337,7 +363,50 @@ public class MainFrame extends javax.swing.JPanel {
 
         jPanel3.add(New_Rating_Panel, "card2");
 
-        HomePanel.setBackground(new java.awt.Color(237, 231, 227));
+        HomePanel.setBackground(new java.awt.Color(130, 192, 204));
+        HomePanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jPanel4.setBackground(new java.awt.Color(130, 192, 204));
+        jPanel4.setForeground(new java.awt.Color(0, 0, 0));
+        jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Name", "Taste", "Price", "Price-Performance", "Comment", "Total-Rating"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTable2.setRowHeight(40);
+        jTable2.setRowMargin(5);
+        jTable2.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jTable2.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jTable2.setShowGrid(false);
+        jTable2.setShowHorizontalLines(true);
+        jTable2.setShowVerticalLines(false);
+        jTable2.setDefaultRenderer(String.class, new BoardTableCellRenderer());
+        jScrollPane3.setViewportView(jTable2);
+
+        jPanel4.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 30, 750, 260));
+
+        HomePanel.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 90, 750, 300));
+
         jPanel3.add(HomePanel, "card3");
 
         add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 70, 750, 390));
@@ -416,7 +485,7 @@ public class MainFrame extends javax.swing.JPanel {
         CardLayout layout = (CardLayout) jPanel3.getLayout();
         resetRatingView();
         layout.show(jPanel3, "card3");
-        
+        renderTableContent();
         
         }
     }//GEN-LAST:event_sendReviewButtonMouseClicked
@@ -425,7 +494,7 @@ public class MainFrame extends javax.swing.JPanel {
         CardLayout layout = (CardLayout) jPanel3.getLayout();
         resetRatingView();
         layout.show(jPanel3, "card3");
-        
+        renderTableContent(); 
     }//GEN-LAST:event_cancelReviewButtonMouseClicked
 
     private void sendReviewButtonMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_sendReviewButtonMouseExited
@@ -437,7 +506,7 @@ public class MainFrame extends javax.swing.JPanel {
     }//GEN-LAST:event_Nav_HomeMouseEntered
 
     private void Nav_HomeMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Nav_HomeMouseExited
-        Nav_Home.setBackground(new Color(72, 159, 181));
+        Nav_Home.setBackground(new Color(22,105,122));
     }//GEN-LAST:event_Nav_HomeMouseExited
 
     private void Nav_ViewRatingsMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Nav_ViewRatingsMouseEntered
@@ -445,7 +514,7 @@ public class MainFrame extends javax.swing.JPanel {
     }//GEN-LAST:event_Nav_ViewRatingsMouseEntered
 
     private void Nav_ViewRatingsMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Nav_ViewRatingsMouseExited
-        Nav_ViewRatings.setBackground(new Color(72, 159, 181));
+        Nav_ViewRatings.setBackground(new Color(22,105,122));
     }//GEN-LAST:event_Nav_ViewRatingsMouseExited
 
     private void Nav_FillerMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Nav_FillerMouseEntered
@@ -453,7 +522,7 @@ public class MainFrame extends javax.swing.JPanel {
     }//GEN-LAST:event_Nav_FillerMouseEntered
 
     private void Nav_FillerMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Nav_FillerMouseExited
-        Nav_Filler.setBackground(new Color(72, 159, 181));
+        Nav_Filler.setBackground(new Color(22,105,122));
     }//GEN-LAST:event_Nav_FillerMouseExited
 
     private void NavAddRatingMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_NavAddRatingMouseEntered
@@ -461,7 +530,7 @@ public class MainFrame extends javax.swing.JPanel {
     }//GEN-LAST:event_NavAddRatingMouseEntered
 
     private void NavAddRatingMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_NavAddRatingMouseExited
-        Nav_AddRating.setBackground(new Color(72, 159, 181));
+        Nav_AddRating.setBackground(new Color(22,105,122));
     }//GEN-LAST:event_NavAddRatingMouseExited
 
     private void Nav_AddRatingMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Nav_AddRatingMouseClicked
@@ -473,6 +542,7 @@ public class MainFrame extends javax.swing.JPanel {
     private void Nav_HomeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Nav_HomeMouseClicked
         CardLayout layout = (CardLayout) jPanel3.getLayout();
         layout.show(jPanel3, "card3");
+        renderTableContent();
     }//GEN-LAST:event_Nav_HomeMouseClicked
    
     private void resetRatingView() {
@@ -488,6 +558,24 @@ public class MainFrame extends javax.swing.JPanel {
         caffeineLabel.setText("Caffeine per serving: ");
         calorieLabel.setText("Calories per serving: ");
         allergyLabel.setText("Allergy information: ");
+    }
+    
+    public void renderTableContent() {
+        StartPage page2 = (StartPage) SwingUtilities.getWindowAncestor(this);
+        LoginPanel lgnPanel = page2.getLgnPanel();
+        JDBCOperator operator = lgnPanel.getOperator();
+        
+        DefaultTableModel tblModel  = (DefaultTableModel) jTable2.getModel();
+        tblModel.setRowCount(0);
+        
+        ArrayList<Rating> ratings = operator.getAllRatings();
+        
+        for(Rating r : ratings) {
+        tblModel.addRow(new String[] {r.getName(), r.getTaste(), r.getPrice(), r.getPricePerformance(), r.getComment(), r.getTotalRating()});
+        
+        }
+        
+        
     }
     
 
@@ -515,8 +603,11 @@ public class MainFrame extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JSlider jSlider1;
+    private javax.swing.JTable jTable2;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JLabel nameLabel;
     private javax.swing.JSlider priceSlider;
