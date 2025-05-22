@@ -13,6 +13,7 @@ public class JDBCOperator {
         private PreparedStatement getCoffeeNamesstmt;
         private PreparedStatement findItemByNameStmt;
         private PreparedStatement sendReviewStmt;
+        private PreparedStatement getRatingsStmt;
         
 	private Connection connection;
         
@@ -33,11 +34,14 @@ public class JDBCOperator {
                         String getCoffeNamessql = "SELECT Name FROM coffeetypes";
                         String finyItemByNameSQL = "SELECT Name, Type, Calories, Caffeine, AllergyInf FROM coffeetypes WHERE Name = ?";
                         String sendReviewSQL = "INSERT INTO ratings (Name, Taste, Price, Price_Performance, Comment, Total_Rating) VALUES (?, ?, ?, ?, ?, ?);";
+                        String getRatingsSQL = "SELECT Name, Taste, Price, Price_Performance, Comment, Total_Rating FROM ratings;";
+                        
                         
 			pstmt = connection.prepareStatement(sql);
                         getCoffeeNamesstmt = connection.prepareStatement(getCoffeNamessql);
                         findItemByNameStmt = connection.prepareStatement(finyItemByNameSQL);
                         sendReviewStmt = connection.prepareStatement(sendReviewSQL);
+                        getRatingsStmt = connection.prepareStatement(getRatingsSQL);
 			
 		}catch(SQLException ex) {
 			ex.printStackTrace();
@@ -105,11 +109,11 @@ public class JDBCOperator {
   public void postReview(String name, double taste, int price, double pricePerformance, String comment, double totalRating) {
       try {
           sendReviewStmt.setString(1, name);
-          sendReviewStmt.setDouble(2, taste);
-          sendReviewStmt.setInt(3, price);
-          sendReviewStmt.setDouble(4, pricePerformance);
+          sendReviewStmt.setString(2, String.valueOf(taste));
+          sendReviewStmt.setString(3, String.valueOf(price));
+          sendReviewStmt.setString(4, String.valueOf(pricePerformance));
           sendReviewStmt.setString(5, comment);
-          sendReviewStmt.setDouble(6, totalRating);
+          sendReviewStmt.setString(6, String.valueOf(totalRating));
           sendReviewStmt.execute();
           System.out.println("Posted");
           
@@ -119,4 +123,34 @@ public class JDBCOperator {
       
       
   }
+  
+ public ArrayList<Rating> getAllRatings() {
+          ArrayList<Rating> ratings = new ArrayList<>();
+          
+          try {
+          ResultSet rs = getRatingsStmt.executeQuery();
+           while (rs.next()) {
+                String name = rs.getString("Name");
+                String taste = rs.getString("Taste");
+                String price = rs.getString("Price");
+                String pricePerformance = rs.getString("Price_Performance");
+                String comment = rs.getString("Comment");
+                String totalRating = rs.getString("Total_Rating");
+                ratings.add(new Rating(
+                    name,
+                    taste,
+                    price,
+                    pricePerformance,
+                    comment,
+                    totalRating
+                ));
+            }
+         return ratings;
+          } catch(SQLException ex) {
+              ex.printStackTrace();
+                      
+          }
+          return ratings;
+ 
+ }
 }
