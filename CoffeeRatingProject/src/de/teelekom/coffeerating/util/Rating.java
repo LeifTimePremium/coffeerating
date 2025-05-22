@@ -4,6 +4,9 @@
  */
 package de.teelekom.coffeerating.util;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Comparator;
 /**
  *
  * @author deter
@@ -53,4 +56,27 @@ public class Rating {
     }
     
     
+    public static ArrayList<Rating> filterRatingData(RatingEnum ratingEnumFilter, ArrayList<Rating> ratings) {
+        ArrayList<Rating> returner = ratings;
+        switch(ratingEnumFilter) {
+            case TASTE:
+                returner.sort(Comparator.comparingDouble(r -> Double.parseDouble(r.getTaste())));
+            break;
+            
+            case PRICE:
+                returner.sort(Comparator.comparingInt(r -> Integer.parseInt(r.getPrice())));
+            break;
+            
+            case PRICE_PERFORMANCE:
+                returner.sort(Comparator.comparingDouble(r -> Double.parseDouble(r.getPricePerformance())));
+                
+            break;
+            
+            case TOTAL_RATING:
+                returner.sort(Comparator.comparingDouble(r -> Double.parseDouble(r.getTotalRating())));
+            break;
+            
+        }
+        return returner;
+    }
 }

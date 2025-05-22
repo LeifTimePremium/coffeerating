@@ -11,6 +11,7 @@ import de.teelekom.coffeerating.components.TableHeader;
 import de.teelekom.coffeerating.graphics.StartPage;
 import de.teelekom.coffeerating.components.BoardTableCellRenderer;
 import de.teelekom.coffeerating.util.Rating;
+import de.teelekom.coffeerating.util.RatingEnum;
 
 import java.awt.CardLayout;
 import java.awt.Color;
@@ -29,12 +30,7 @@ import javax.swing.SwingUtilities;
 public class MainFrame extends javax.swing.JPanel {
 
     private int sqlDataCounter = 0;
-    private ArrayList<String> names = new ArrayList<String>();
-    private ArrayList<Double> tastes = new ArrayList<Double>();
-    private ArrayList<Integer> prices = new ArrayList<Integer>();
-    private ArrayList<Double> pricePerformances = new ArrayList<Double>();
-    private ArrayList<String> comments = new ArrayList<String>();
-    private ArrayList<Double> totalRatings = new ArrayList<Double>();
+    private ArrayList<Rating> ratingData = new ArrayList<Rating>();
     
     
     /**
@@ -83,8 +79,10 @@ public class MainFrame extends javax.swing.JPanel {
         allergyLabel = new javax.swing.JLabel();
         HomePanel = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
+        jComboBox2 = new javax.swing.JComboBox<>();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
+        jLabel8 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -363,6 +361,18 @@ public class MainFrame extends javax.swing.JPanel {
         jPanel4.setForeground(new java.awt.Color(0, 0, 0));
         jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "DEFAULT", "Taste", "Price", "Price_Performance", "Total_Rating", " " }));
+        jComboBox2.addPopupMenuListener(new javax.swing.event.PopupMenuListener() {
+            public void popupMenuCanceled(javax.swing.event.PopupMenuEvent evt) {
+            }
+            public void popupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {
+                jComboBox2PopupMenuWillBecomeInvisible(evt);
+            }
+            public void popupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent evt) {
+            }
+        });
+        jPanel4.add(jComboBox2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 80, 160, 30));
+
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -396,9 +406,16 @@ public class MainFrame extends javax.swing.JPanel {
         jTable2.setDefaultRenderer(String.class, new BoardTableCellRenderer());
         jScrollPane3.setViewportView(jTable2);
 
-        jPanel4.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 30, 750, 260));
+        jPanel4.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 130, 750, 260));
 
-        HomePanel.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 90, 750, 300));
+        jLabel8.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel8.setText("Filter");
+        jPanel4.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 160, 30));
+
+        HomePanel.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 750, 390));
 
         jPanel3.add(HomePanel, "card3");
 
@@ -504,6 +521,7 @@ public class MainFrame extends javax.swing.JPanel {
 
     private void Nav_ViewRatingsMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Nav_ViewRatingsMouseEntered
         Nav_ViewRatings.setBackground(new Color(255, 166, 43));
+        
     }//GEN-LAST:event_Nav_ViewRatingsMouseEntered
 
     private void Nav_ViewRatingsMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Nav_ViewRatingsMouseExited
@@ -529,6 +547,7 @@ public class MainFrame extends javax.swing.JPanel {
     private void Nav_AddRatingMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Nav_AddRatingMouseClicked
         CardLayout layout = (CardLayout) jPanel3.getLayout();
         resetRatingView();
+        jComboBox2.setSelectedItem("DEFAULT");
         layout.show(jPanel3, "card2");
     }//GEN-LAST:event_Nav_AddRatingMouseClicked
 
@@ -537,6 +556,55 @@ public class MainFrame extends javax.swing.JPanel {
         layout.show(jPanel3, "card3");
         renderTableContent();
     }//GEN-LAST:event_Nav_HomeMouseClicked
+
+    private void jComboBox2PopupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {//GEN-FIRST:event_jComboBox2PopupMenuWillBecomeInvisible
+        String selectedFilter = String.valueOf(jComboBox2.getSelectedItem());
+        DefaultTableModel tblModel  = (DefaultTableModel) jTable2.getModel();
+        tblModel.setRowCount(0);
+        ArrayList<Rating> filteredRatings = new ArrayList<Rating>();
+        
+        switch(selectedFilter) {
+            case "Taste":
+                filteredRatings = filterRatingData(RatingEnum.TASTE);
+                for(Rating r : filteredRatings) {
+                tblModel.addRow(new String[] {r.getName(), r.getTaste(), r.getPrice(), r.getPricePerformance(), r.getComment(), r.getTotalRating()});
+                }
+            break;
+            
+            case "Price":
+                filteredRatings = filterRatingData(RatingEnum.PRICE);
+                for(Rating r : filteredRatings) {
+                tblModel.addRow(new String[] {r.getName(), r.getTaste(), r.getPrice(), r.getPricePerformance(), r.getComment(), r.getTotalRating()});
+                }
+            break;
+            case "Price_Performance":
+                filteredRatings = filterRatingData(RatingEnum.PRICE_PERFORMANCE);
+                for(Rating r : filteredRatings) {
+                tblModel.addRow(new String[] {r.getName(), r.getTaste(), r.getPrice(), r.getPricePerformance(), r.getComment(), r.getTotalRating()});
+                }
+                
+                
+            break;
+            case "Total_Rating":
+                filteredRatings = filterRatingData(RatingEnum.TOTAL_RATING);
+                for(Rating r : filteredRatings) {
+                tblModel.addRow(new String[] {r.getName(), r.getTaste(), r.getPrice(), r.getPricePerformance(), r.getComment(), r.getTotalRating()});
+                }
+                
+            break;
+            case "DEFAULT":
+                filteredRatings = ratingData;
+                for(Rating r : ratingData) {
+                tblModel.addRow(new String[] {r.getName(), r.getTaste(), r.getPrice(), r.getPricePerformance(), r.getComment(), r.getTotalRating()});
+                }
+                
+            break;
+            default:
+                System.out.println("Default");
+            break;
+            
+        }
+    }//GEN-LAST:event_jComboBox2PopupMenuWillBecomeInvisible
    
     private void resetRatingView() {
         taste_Slider.setValue(5);
@@ -561,14 +629,15 @@ public class MainFrame extends javax.swing.JPanel {
         DefaultTableModel tblModel  = (DefaultTableModel) jTable2.getModel();
         tblModel.setRowCount(0);
         
-        ArrayList<Rating> ratings = operator.getAllRatings();
+        ratingData = operator.getAllRatings();
         
-        for(Rating r : ratings) {
+        for(Rating r : ratingData) {
         tblModel.addRow(new String[] {r.getName(), r.getTaste(), r.getPrice(), r.getPricePerformance(), r.getComment(), r.getTotalRating()});
-        
         }
-        
-        
+    }
+    
+    public ArrayList<Rating> filterRatingData(RatingEnum rm) {
+       return Rating.filterRatingData(rm, ratingData);
     }
     
 
@@ -586,6 +655,7 @@ public class MainFrame extends javax.swing.JPanel {
     private javax.swing.JButton cancelReviewButton;
     private javax.swing.JPanel commitPanel;
     private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -593,6 +663,7 @@ public class MainFrame extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
