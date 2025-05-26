@@ -1,5 +1,6 @@
 package de.teelekom.coffeerating.util;
 
+import de.teelekom.coffeerating.main.Main;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -14,6 +15,8 @@ public class JDBCOperator {
         private PreparedStatement findItemByNameStmt;
         private PreparedStatement sendReviewStmt;
         private PreparedStatement getRatingsStmt;
+        private PreparedStatement getSpecificRatingStmt;
+        private String usernameResp;
         
 	private Connection connection;
         
@@ -35,13 +38,14 @@ public class JDBCOperator {
                         String finyItemByNameSQL = "SELECT Name, Type, Calories, Caffeine, AllergyInf FROM coffeetypes WHERE Name = ?";
                         String sendReviewSQL = "INSERT INTO ratings (Name, Taste, Price, Price_Performance, Comment, Total_Rating) VALUES (?, ?, ?, ?, ?, ?);";
                         String getRatingsSQL = "SELECT Name, Taste, Price, Price_Performance, Comment, Total_Rating FROM ratings;";
-                        
+                        String getSpecificRatingSQL = "SELECT Name, Taste, Price, Price_Performance, Comment, Total_Rating FROM ratings WHERE Name = ?";
                         
 			pstmt = connection.prepareStatement(sql);
                         getCoffeeNamesstmt = connection.prepareStatement(getCoffeNamessql);
                         findItemByNameStmt = connection.prepareStatement(finyItemByNameSQL);
                         sendReviewStmt = connection.prepareStatement(sendReviewSQL);
                         getRatingsStmt = connection.prepareStatement(getRatingsSQL);
+                        getSpecificRatingStmt = connection.prepareStatement(getSpecificRatingSQL);
 			
 		}catch(SQLException ex) {
 			ex.printStackTrace();
@@ -53,6 +57,7 @@ public class JDBCOperator {
             try {
 		pstmt.setString(1, username);
                 pstmt.setString(2, password);
+                Main.cm.setUsername(username);
                 try (ResultSet rs = pstmt.executeQuery()) {
                 if(rs.next()) {
            	   return true;
@@ -153,4 +158,29 @@ public class JDBCOperator {
           return ratings;
  
  }
+ public Rating getSpecificRating(String name) {
+     try {
+            
+                getSpecificRatingStmt.setString(1, name);
+                ResultSet rs = getSpecificRatingStmt.executeQuery();
+                while(rs.next()) {
+                String ratedCoffename = rs.getString("Name");
+                String taste = rs.getString("Taste");
+                String price = rs.getString("Price");
+                String pricePerformance = rs.getString("Price_Performance");
+                String comment = rs.getString("Comment");
+                String totalRating = rs.getString("Total_Rating");
+                return new Rating(ratedCoffename, taste, price, pricePerformance, comment, totalRating);
+                }   
+     }catch(SQLException ex) {
+         ex.printStackTrace();
+     }
+     return new Rating("Empty", "Empty", "Empty", "Empty", "Empty", "Empty");
+     
+ }
+
+    public String getUsername() {
+        return usernameResp;
+    }
+ 
 }

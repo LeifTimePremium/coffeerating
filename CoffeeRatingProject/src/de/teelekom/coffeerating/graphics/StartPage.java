@@ -16,12 +16,13 @@ public class StartPage extends javax.swing.JFrame {
      * Creates new form StartPage2
      */
     public LoginPanel lgnPanel;
+    public  MainFrame mainFrame;
     
     public StartPage() {
         
         initComponents();
        lgnPanel = new LoginPanel();
-        MainFrame mainFrame = new MainFrame();
+        mainFrame = new MainFrame();
        
 
         add(lgnPanel, "Page1");
@@ -78,6 +79,12 @@ public class StartPage extends javax.swing.JFrame {
     public LoginPanel getLgnPanel() {
         return lgnPanel;
     }
+
+    public MainFrame getMainFrame() {
+        return mainFrame;
+    }
+    
+    
    
    
 
