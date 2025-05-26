@@ -41,6 +41,7 @@ public class MainFrame extends javax.swing.JPanel {
     public MainFrame() {
         
         initComponents();
+        
     }
 
     /**
@@ -62,6 +63,7 @@ public class MainFrame extends javax.swing.JPanel {
         Nav_Filler = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
+        userNameLabel = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         New_Rating_Panel = new javax.swing.JPanel();
         ratingPanel = new javax.swing.JPanel();
@@ -90,6 +92,14 @@ public class MainFrame extends javax.swing.JPanel {
         jScrollPane3 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
         jLabel8 = new javax.swing.JLabel();
+        InspectRatingPanel = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        InspectRatingCommentField = new javax.swing.JTextArea();
+        InspectRatingCommentLabel = new javax.swing.JLabel();
+        InspectRatingTasteLabel = new javax.swing.JLabel();
+        InspectRatingPriceLabel = new javax.swing.JLabel();
+        InspectRatingPricePerformanceLabel = new javax.swing.JLabel();
+        InspectRatingTotalRatingLabel = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -183,6 +193,12 @@ public class MainFrame extends javax.swing.JPanel {
 
         jPanel2.setBackground(new java.awt.Color(22, 105, 122));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        userNameLabel.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        userNameLabel.setText("User: " + Main.cm.getUsername());
+        jPanel2.add(userNameLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 20, 150, 40));
+        userNameLabel.getAccessibleContext().setAccessibleName("userNameLabel");
+
         add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 0, 770, 70));
 
         jPanel3.setBackground(new java.awt.Color(55, 147, 146));
@@ -411,6 +427,11 @@ public class MainFrame extends javax.swing.JPanel {
         jTable2.setShowHorizontalLines(true);
         jTable2.setShowVerticalLines(false);
         jTable2.setDefaultRenderer(String.class, new BoardTableCellRenderer());
+        jTable2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable2MouseClicked(evt);
+            }
+        });
         jScrollPane3.setViewportView(jTable2);
 
         jPanel4.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 130, 750, 260));
@@ -425,6 +446,46 @@ public class MainFrame extends javax.swing.JPanel {
         HomePanel.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 750, 390));
 
         jPanel3.add(HomePanel, "card3");
+
+        InspectRatingPanel.setBackground(new java.awt.Color(130, 192, 204));
+        InspectRatingPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        InspectRatingCommentField.setEditable(false);
+        InspectRatingCommentField.setBackground(new java.awt.Color(255, 255, 255));
+        InspectRatingCommentField.setColumns(20);
+        InspectRatingCommentField.setRows(5);
+        jScrollPane2.setViewportView(InspectRatingCommentField);
+
+        InspectRatingPanel.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 170, 370, 160));
+
+        InspectRatingCommentLabel.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        InspectRatingCommentLabel.setForeground(new java.awt.Color(0, 0, 0));
+        InspectRatingCommentLabel.setText("Comment");
+        InspectRatingPanel.add(InspectRatingCommentLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 140, 70, -1));
+
+        InspectRatingTasteLabel.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        InspectRatingTasteLabel.setForeground(new java.awt.Color(0, 0, 0));
+        InspectRatingTasteLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        InspectRatingTasteLabel.setText("Taste: ");
+        InspectRatingPanel.add(InspectRatingTasteLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 10, 230, -1));
+
+        InspectRatingPriceLabel.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        InspectRatingPriceLabel.setForeground(new java.awt.Color(0, 0, 0));
+        InspectRatingPriceLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        InspectRatingPriceLabel.setText("Price: ");
+        InspectRatingPanel.add(InspectRatingPriceLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 50, 250, -1));
+
+        InspectRatingPricePerformanceLabel.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        InspectRatingPricePerformanceLabel.setForeground(new java.awt.Color(0, 0, 0));
+        InspectRatingPricePerformanceLabel.setText("Price-Performance: ");
+        InspectRatingPanel.add(InspectRatingPricePerformanceLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 90, 360, -1));
+
+        InspectRatingTotalRatingLabel.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        InspectRatingTotalRatingLabel.setForeground(new java.awt.Color(0, 0, 0));
+        InspectRatingTotalRatingLabel.setText("Total rating: ");
+        InspectRatingPanel.add(InspectRatingTotalRatingLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 340, 420, -1));
+
+        jPanel3.add(InspectRatingPanel, "card4");
 
         add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 70, 750, 390));
     }// </editor-fold>//GEN-END:initComponents
@@ -512,6 +573,7 @@ public class MainFrame extends javax.swing.JPanel {
         resetRatingView();
         layout.show(jPanel3, "card3");
         renderTableContent(); 
+        System.out.println(userNameLabel.getText());
     }//GEN-LAST:event_cancelReviewButtonMouseClicked
 
     private void sendReviewButtonMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_sendReviewButtonMouseExited
@@ -612,6 +674,27 @@ public class MainFrame extends javax.swing.JPanel {
             
         }
     }//GEN-LAST:event_jComboBox2PopupMenuWillBecomeInvisible
+
+    private void jTable2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable2MouseClicked
+       int counter = evt.getClickCount();
+       if(counter == 2) {
+        clearInspectorView();
+        StartPage page2 = (StartPage) SwingUtilities.getWindowAncestor(this);
+        LoginPanel lgnPanel = page2.getLgnPanel();
+        JDBCOperator operator = lgnPanel.getOperator();   
+        DefaultTableModel tblModel  = (DefaultTableModel) jTable2.getModel();
+        String name = String.valueOf(tblModel.getValueAt(jTable2.getSelectedRow(), 0));
+        Rating r = operator.getSpecificRating(name.trim());
+        InspectRatingTasteLabel.setText("Taste: " + r.getTaste() + "/10");
+        InspectRatingPriceLabel.setText("Price: " + r.getPrice() + "c");
+        InspectRatingPricePerformanceLabel.setText("Price-Performance: " + r.getPricePerformance());
+        InspectRatingCommentField.setText(r.getComment());
+        InspectRatingTotalRatingLabel.setText("Total rating: " + r.getTotalRating() + "/10");
+        CardLayout layout = (CardLayout) jPanel3.getLayout();
+        
+        layout.show(jPanel3, "card4");
+       }
+    }//GEN-LAST:event_jTable2MouseClicked
    
     private void resetRatingView() {
         taste_Slider.setValue(5);
@@ -641,15 +724,36 @@ public class MainFrame extends javax.swing.JPanel {
         for(Rating r : ratingData) {
         tblModel.addRow(new String[] {r.getName(), r.getTaste(), r.getPrice(), r.getPricePerformance(), r.getComment(), r.getTotalRating()});
         }
+        
     }
     
     public ArrayList<Rating> filterRatingData(RatingEnum rm) {
        return Rating.filterRatingData(rm, ratingData);
     }
+    private void clearInspectorView() {
+        InspectRatingTasteLabel.setText("Taste: ");
+        InspectRatingPriceLabel.setText("Price: ");
+        InspectRatingPricePerformanceLabel.setText("Price-Performance: ");
+        InspectRatingCommentField.setText("");
+        InspectRatingTotalRatingLabel.setText("Total rating: ");
+    }
+
+    public JLabel getUserNameLabel() {
+        return userNameLabel;
+    }
+
+   
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel HomePanel;
+    private javax.swing.JTextArea InspectRatingCommentField;
+    private javax.swing.JLabel InspectRatingCommentLabel;
+    private javax.swing.JPanel InspectRatingPanel;
+    private javax.swing.JLabel InspectRatingPriceLabel;
+    private javax.swing.JLabel InspectRatingPricePerformanceLabel;
+    private javax.swing.JLabel InspectRatingTasteLabel;
+    private javax.swing.JLabel InspectRatingTotalRatingLabel;
     private javax.swing.JPanel Nav_AddRating;
     private javax.swing.JPanel Nav_Filler;
     private javax.swing.JPanel Nav_Home;
@@ -676,6 +780,7 @@ public class MainFrame extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JSlider jSlider1;
     private javax.swing.JTable jTable2;
@@ -687,5 +792,6 @@ public class MainFrame extends javax.swing.JPanel {
     private javax.swing.JLabel tasteLabel;
     private javax.swing.JSlider taste_Slider;
     private javax.swing.JLabel typeLabel;
+    private javax.swing.JLabel userNameLabel;
     // End of variables declaration//GEN-END:variables
 }

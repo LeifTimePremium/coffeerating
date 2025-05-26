@@ -4,6 +4,7 @@
  */
 package de.teelekom.coffeerating.graphics;
 
+import de.teelekom.coffeerating.main.Main;
 import de.teelekom.coffeerating.util.JDBCOperator;
 import java.awt.CardLayout;
 import javax.swing.JButton;
@@ -169,13 +170,14 @@ public class LoginPanel extends javax.swing.JPanel {
         
         boolean pwCorrect = operator.checkUsernamePasswordCombination(username, password);
         if(pwCorrect) {
-             System.out.println("Korrekt");
              StartPage page2 = (StartPage) SwingUtilities.getWindowAncestor(this);
              CardLayout layout = (CardLayout) page2.getCardPanel().getLayout();
              layout.show(page2.getCardPanel(), "Page2");
+            
+             
+             
              
         } else {
-            System.out.println("Falsch");
         }
     }//GEN-LAST:event_loginBtnActionPerformed
 
